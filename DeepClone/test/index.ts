@@ -12,28 +12,28 @@ describe("DeepClone", () => {
     });
     it("能复制基本类型", () => {
         const n = 123;
-        const n2 = DeepClone(n);
+        const n2 = new DeepClone().clone(n);
         assert(n === n2);
         const s = 'aaa';
-        const s2 = DeepClone(s);
+        const s2 = new DeepClone().clone(s);
         assert(s === s2);
         const b = true;
-        const b2 = DeepClone(b);
+        const b2 = new DeepClone().clone(b);
         assert(b === b2);
         const u = undefined;
-        const u2 = DeepClone(u);
+        const u2 = new DeepClone().clone(u);
         assert(u === u2);
         const empty = null;
-        const empty2 = DeepClone(empty);
+        const empty2 = new DeepClone().clone(empty);
         assert(empty === empty2);
         const sym = Symbol();
-        const sym2 = DeepClone(sym);
+        const sym2 = new DeepClone().clone(sym);
         assert(sym === sym2);
     })
     describe("对象", () => {
         it("能复制普通对象", () => {
             const a = { name: 'cz', child: { name: 'zc' } };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a.name === a2.name);
             assert(a.child !== a2.child);
@@ -41,7 +41,7 @@ describe("DeepClone", () => {
         })
         it("能复制数组", () => {
             const a = [[11, 12], [21, 22], [31, 32]];
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a[0] !== a2[0])
             assert(a[1] !== a2[1])
@@ -51,7 +51,7 @@ describe("DeepClone", () => {
         it("能复制函数", () => {
             const a = function (x, y) { return x + y; };
             a.xxx = { yyy: { zzz: 2 } };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a.xxx !== a2.xxx);
             assert(a.xxx.yyy !== a2.xxx.yyy);
@@ -61,7 +61,7 @@ describe("DeepClone", () => {
         it("能复制环", () => {
             const a: any = { name: 'cz', child: { name: 'zc' } };
             a.self = a;
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a.name === a2.name);
             assert(a.self !== a2.self);
@@ -73,14 +73,14 @@ describe("DeepClone", () => {
         //         b.child = { child: null };
         //         b = b.child;
         //     }
-        //     const a2 = DeepClone(a);
+        //     const a2 = new DeepClone().clone(a);
         //     assert(a !== a2);
         //     assert(a.child !== b.child);
         // })
         it("能复制正则", () => {
             const a: any = new RegExp("hi\\d+", "gi");
             a.xxx = { yyy: { zzz: 1 } };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a.source === a2.source);
             assert(a.flags === a2.flags);
@@ -91,7 +91,7 @@ describe("DeepClone", () => {
         it("能复制日期", () => {
             const a: any = new Date();
             a.xxx = { yyy: { zzz: 1 } };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert(a.getTime() === a2.getTime());
             assert(a.xxx !== a2.xxx);
@@ -101,7 +101,7 @@ describe("DeepClone", () => {
         it("能自动跳过原型属性", () => {
             const a = Object.create({ name: "a" });
             a.xxx = { yyy: { zzz: 1 } };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert.isFalse("name" in a2);
             assert(a.xxx !== a2.xxx);
@@ -138,7 +138,7 @@ describe("DeepClone", () => {
                     }
                 ]
             };
-            const a2 = DeepClone(a);
+            const a2 = new DeepClone().clone(a);
             assert(a !== a2);
             assert.isNaN(a2.n);
             assert(a.n2 === a2.n2);
