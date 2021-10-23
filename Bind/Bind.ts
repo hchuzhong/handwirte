@@ -6,23 +6,28 @@ function bind(asThis) {
     if (typeof fn !== 'function') {
         throw new Error('bind need to use by Function');
     }
-    return function () {
+    function resultFn() {
         var args2 = slice.call(arguments, 0)
-        return fn.apply(asThis, args.concat(args2));
+        return fn.apply(resultFn.prototype.isPrototypeOf(this) ? this : asThis, args.concat(args2));
     }
+    resultFn.prototype = fn.prototype;
+    return resultFn;
 }
 
 // support ES6
 function _bind(asThis, ...args1) {
     const fn = this;
-    return function (...args2) {
-        return fn.call(asThis, ...args1, ...args2);
+    // this instanceof resultFn
+    // or
+    // resultFn.prototype.isPrototypeOf(this)
+    function resultFn(...args2) {
+        return fn.call(
+            this instanceof resultFn ? this : asThis,
+            ...args1,
+            ...args2);
     }
+    resultFn.prototype = fn.prototype;
+    return resultFn;
 }
 
-
-export default bind;
-
-if (!Function.prototype.bind === undefined) {
-    Function.prototype.bind = () => { }
-}
+export default _bind;
