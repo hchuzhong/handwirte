@@ -6,7 +6,8 @@
   "author": "chuzhong <352995096@qq.com>",
   "license": "MIT",
   "scripts": {
-    "testDeepClone": "mocha -r ts-node/register DeepClone/test/**/*.ts"
+    "testDeepClone": "mocha -r ts-node/register DeepClone/test/**/*.ts",
+    "testBind": "ts-node Bind/test.ts"
   },
   "devDependencies": {
     "@types/chai": "^4.2.0",
