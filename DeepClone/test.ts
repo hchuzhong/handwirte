@@ -1,7 +1,7 @@
 import * as chai from "chai";
 import * as sinon from "sinon";
 import * as sinonChai from "sinon-chai";
-import DeepClone from "../src/index"
+import DeepClone from "./DeepClone"
 chai.use(sinonChai);
 
 const assert = chai.assert;
