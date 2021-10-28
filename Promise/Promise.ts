@@ -8,7 +8,8 @@ class Promise2 {
             this.state = "fulfilled";
             this.callbacks.forEach((handle) => {
                 if (typeof handle[0] === "function") {
-                    handle[0].call(undefined, result);
+                    const x = handle[0].call(undefined, result);
+                    handle[2].resolveWith(x);
                 }
             });
         });
@@ -19,7 +20,8 @@ class Promise2 {
             this.state = "rejected";
             this.callbacks.forEach((handle) => {
                 if (typeof handle[1] === "function") {
-                    handle[1].call(undefined, reason);
+                    const x = handle[1].call(undefined, reason);
+                    handle[2].resolveWith(x);
                 }
             });
         });
@@ -40,7 +42,14 @@ class Promise2 {
         if (typeof fail === "function") {
             handle[1] = fail;
         }
+        handle[2] = new Promise2(() => {});
         this.callbacks.push(handle);
+        return handle[2];
+    }
+    resolveWith(x) {
+        if (this === x) {
+            return this.reject(new TypeError());
+        }
     }
 }
 

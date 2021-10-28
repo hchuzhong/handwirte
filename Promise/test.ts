@@ -166,4 +166,24 @@ describe("Promise", () => {
             done();
         });
     });
+    it("2.2.7 then 必须返回一个 promise", () => {
+        const promise = new Promise((resolve) => {
+            resolve();
+        });
+        const promise2 = promise.then(
+            () => {},
+            () => {}
+        );
+        assert(promise2 instanceof Promise);
+    });
+    it("2.2.7.1 如果 then(success, fail) 中的 success 返回一个值 x, 运行 Promise Resolution Procedure [[Resolve]](promise2, x)", () => {
+        const promise = new Promise((resolve) => {
+            resolve();
+        });
+        const promise2 = promise.then(
+            () => "success",
+            () => {}
+        );
+        assert(promise2 instanceof Promise);
+    });
 });
